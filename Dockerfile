@@ -1,5 +1,6 @@
 FROM eclipse-temurin:17-jdk-alpine
 VOLUME /tmp
-COPY run.sh .
+WORKDIR /deployApp
 COPY target/*.jar app.jar
-ENTRYPOINT ["run.sh"]
+EXPOSE 9090
+ENTRYPOINT ["java","-jar","/app.jar"]
