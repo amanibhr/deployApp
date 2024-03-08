@@ -16,7 +16,7 @@ services:
     depends_on:
       - mysqldb
     build: /home/amani/deployApp
-    # restart: on-failure
+    restart: on-failure
     env_file: ./.env
     ports:
       - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
