@@ -15,9 +15,6 @@
     <description>SkiStationProject</description>
     <properties>
         <java.version>1.8</java.version>
-        <!-- Other properties -->
-        <!-- <sonar.projectKey>task-management-system</sonar.projectKey> -->
-        <sonar.projectName>deployappanalyse</sonar.projectName>
 </properties>
     <dependencies>
         <dependency>
@@ -53,11 +50,6 @@
 
     <build>
         <plugins>
-        <!-- <plugin>
-            <groupId>org.sonarsource.scanner.maven</groupId>
-            <artifactId>sonar-maven-plugin</artifactId>
-            <version>3.9.0.2741</version> 
-        </plugin> -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -84,13 +76,4 @@
         <url>http://localhost:8081/repository/maven-releases</url>
     </repository>
 </distributionManagement>
-<profiles>
-    <profile>
-        <id>sonar</id>
-        <properties>
-            <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-            <sonar.login>b48371b510d166627593221c27e72b61a69595cf</sonar.login>
-        </properties>
-    </profile>
-</profiles>
 </project>
