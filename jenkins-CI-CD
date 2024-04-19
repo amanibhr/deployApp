@@ -1,9 +1,12 @@
 pipeline {
     agent { label 'agent1' }
     stages {
-    stage('Clean workspace') {
-    deleteDir()
-    sh 'ls -lah'
+        stage('Clean workspace') {
+            steps {
+                deleteDir()
+                echo "Workspace cleaned"
+                sh 'pwd' // Print current directory to verify workspace cleanup
+            }
         }
         stage('Checkout') {
             steps {
@@ -25,7 +28,7 @@ pipeline {
                 sh 'mvn package -DskipTests'
             }
         }
-        stage('deploy Artifact') {
+        stage('Deploy Artifact') {
             steps {
                 sh 'mvn deploy -DskipTests' 
             }
@@ -47,7 +50,7 @@ pipeline {
     }
     post {
         always {
-            cleanWs()
+            cleanWs() // Clean workspace at the end of the pipeline
         }
     }
 }
