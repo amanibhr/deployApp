@@ -5,13 +5,13 @@ pipeline {
         githubPush()
     }
     stages {
-        stage('Checkout') {
-            steps {
-                echo "Getting Project from Git"
-                git branch: "main",
-                    url: "https://github.com/amanibhr/deployApp.git"
-            }
+       stage('Checkout') {
+        steps {
+            echo "Getting Project from Git"
+            checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/amanibhr/deployApp.git']]])
         }
+    }
+
         stage('SonarQube analysis') {
             steps {
                 script {
