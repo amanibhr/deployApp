@@ -1,9 +1,9 @@
 pipeline {
     agent { label 'agent1' }
-    triggers {
-        // Trigger the pipeline on GitHub webhook events
-        githubPush()
-    }
+      triggers {
+            // Trigger the pipeline on commit events to the main branch
+            git(branch: 'main', triggerOnSCMChange: true)
+        }
     stages {
        stage('Checkout') {
         steps {
