@@ -1,13 +1,6 @@
 pipeline {
     agent { label 'agent1' }
     stages {
-        stage('Checkout') {
-            steps {
-                echo "Getting Project from Git"
-                git branch: "main",
-                    url: "https://github.com/amanibhr/deployApp.git"
-            }
-        }
         stage('SonarQube analysis') {
             steps {
                 script {
