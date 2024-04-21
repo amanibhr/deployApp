@@ -33,7 +33,7 @@ pipeline {
                 }
             }
         }
-        stage('Run Docker image') {
+        stage('Run Docker image with docker compose') {
             steps {
                 script {
                      sh 'docker-compose up --build -d'
