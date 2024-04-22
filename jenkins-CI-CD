@@ -16,6 +16,13 @@ pipeline {
                 }
             }
         }
+         stage('coverage test') {
+            steps {
+                script {
+                    sh 'mvn test -P test'
+                }
+            }
+        }
         stage('Build Artifact') {
             steps {
                 sh 'mvn package -DskipTests'

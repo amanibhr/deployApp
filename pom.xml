@@ -16,6 +16,32 @@
     <properties>
         <java.version>1.8</java.version>
 </properties>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <!-- Configuration specific to the development profile -->
+            <properties>
+                <env>development</env>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <!-- Configuration specific to the test profile -->
+            <properties>
+                <env>testing</env>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <!-- Configuration specific to the test profile -->
+            <properties>
+                <env>prod</env>
+            </properties>
+        </profile>
+    </profiles>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -63,6 +89,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        
     </build>
 <distributionManagement>
     <snapshotRepository>
