@@ -8,6 +8,13 @@ pipeline {
                     url: "https://github.com/amanibhr/deployApp.git"
             }
         }
+        stage('coverage test') {
+            steps {
+                script {
+                    sh 'mvn clean test -P test jacoco:report'
+                }
+            }
+            }
         stage('SonarQube analysis') {
             steps {
                 script {
