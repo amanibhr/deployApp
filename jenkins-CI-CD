@@ -18,8 +18,7 @@ pipeline {
         stage('SonarQube analysis') {
             steps {
                 script {
-                    sh 'mvn clean'
-                    sh 'mvn compile sonar:sonar -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.organization=deployapp -Dsonar.projectKey=deployapp_newdeployapp -Dsonar.login=8578ac26a6e0c5334ec207b57b139ae14b56e9d4'
+                    sh 'mvn compile sonar:sonar -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.organization=deployapp -Dsonar.projectKey=deployapp_newdeployapp -Dsonar.login=8578ac26a6e0c5334ec207b57b139ae14b56e9d4 -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml'
                 }
             }
         }
