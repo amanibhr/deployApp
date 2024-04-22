@@ -15,7 +15,7 @@
     <description>SkiStationProject</description>
     <properties>
         <java.version>1.8</java.version>
-</properties>
+    </properties>
     <profiles>
         <profile>
             <id>dev</id>
@@ -36,7 +36,7 @@
         </profile>
         <profile>
             <id>prod</id>
-            <!-- Configuration specific to the test profile -->
+            <!-- Configuration specific to the production profile -->
             <properties>
                 <env>prod</env>
             </properties>
@@ -80,7 +80,6 @@
 
     <build>
         <plugins>
-        
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -93,37 +92,37 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
-          <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.7</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>prepare-agent</goal>
-                    </goals>
-                </execution>
-                <execution>
-                    <id>report</id>
-                    <phase>prepare-package</phase>
-                    <goals>
-                        <goal>report</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
     </build>
-<distributionManagement>
-    <snapshotRepository>
-        <id>InternalSnapshots</id>
-        <name>Internal Snapshots</name>
-        <url>http://localhost:8081/repository/maven-snapshots</url>
-    </snapshotRepository>
-    <repository>
-        <id>InternalReleases</id>
-        <name>Internal Releases</name>
-        <url>http://localhost:8081/repository/maven-releases</url>
-    </repository>
-</distributionManagement>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>InternalSnapshots</id>
+            <name>Internal Snapshots</name>
+            <url>http://localhost:8081/repository/maven-snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>InternalReleases</id>
+            <name>Internal Releases</name>
+            <url>http://localhost:8081/repository/maven-releases</url>
+        </repository>
+    </distributionManagement>
 </project>
