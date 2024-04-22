@@ -1,5 +1,67 @@
+// pipeline {
+//    agent { label 'agent1' }
+//     stages {
+//         stage('Checkout') {
+//             steps {
+//                 echo "Getting Project from Git"
+//                 git branch: "main",
+//                     url: "https://github.com/amanibhr/deployApp.git"
+//             }
+//         }
+//         stage('coverage test') {
+//             steps {
+//                 script {
+//                     sh 'mvn clean test -P test jacoco:report'
+//                 }
+//             }
+//             }
+//         stage('SonarQube analysis') {
+//             steps {
+//                 script {
+//                     sh 'mvn compile sonar:sonar -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.organization=deployapp -Dsonar.projectKey=deployapp_newdeployapp -Dsonar.login=8578ac26a6e0c5334ec207b57b139ae14b56e9d4 -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml'
+//                 }
+//             }
+//         }
+        
+//         stage('Build Artifact') {
+//             steps {
+//                 sh 'mvn package -DskipTests'
+//             }
+//         }
+//         stage('Deploy Artifact') {
+//             steps {
+//                 sh 'mvn deploy -DskipTests' 
+//             }
+//         }
+//         stage('Build Docker image') {
+//             steps {
+//                 script {
+//                     sh 'docker build -t app-container .'
+//                 }
+//             }
+//         }
+//         stage('Run Docker image with docker compose') {
+//             steps {
+//                 script {
+//                      sh 'docker-compose up --build -d'
+//                 }
+//             }
+//         }
+//     }
+//     post {
+//         always {
+//             cleanWs()
+//         }
+//     }
+// }
+
 pipeline {
-   agent { label 'agent1' }
+    agent { label 'agent1' }
+    environment {
+        DEV_DB_URL = 'jdbc:h2:mem:test_database;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;IFEXISTS=FALSE'
+        TEST_DB_URL = 'jdbc:h2:mem:test_database;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;IFEXISTS=FALSE'
+        PROD_DB_URL = 'jdbc:mysql://mysqldb:3306/SkiStationDB?createDatabaseIfNotExist=true'
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -8,42 +70,63 @@ pipeline {
                     url: "https://github.com/amanibhr/deployApp.git"
             }
         }
-        stage('coverage test') {
+        stage('Coverage Test') {
             steps {
                 script {
                     sh 'mvn clean test -P test jacoco:report'
                 }
             }
-            }
-        stage('SonarQube analysis') {
+        }
+        stage('SonarQube Analysis') {
             steps {
                 script {
                     sh 'mvn compile sonar:sonar -Dsonar.host.url=https://sonarcloud.io/ -Dsonar.organization=deployapp -Dsonar.projectKey=deployapp_newdeployapp -Dsonar.login=8578ac26a6e0c5334ec207b57b139ae14b56e9d4 -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml'
                 }
             }
         }
-        
         stage('Build Artifact') {
             steps {
                 sh 'mvn package -DskipTests'
             }
         }
-        stage('Deploy Artifact') {
+        stage('Deploy Artifact to Dev') {
+            environment {
+                SPRING_PROFILES_ACTIVE = 'dev'
+                DB_URL = DEV_DB_URL
+            }
             steps {
                 sh 'mvn deploy -DskipTests' 
             }
         }
-        stage('Build Docker image') {
+        stage('Deploy Artifact to Test') {
+            environment {
+                SPRING_PROFILES_ACTIVE = 'test'
+                DB_URL = TEST_DB_URL
+            }
+            steps {
+                sh 'mvn deploy -DskipTests' 
+            }
+        }
+        stage('Deploy Artifact to Prod') {
+            environment {
+                SPRING_PROFILES_ACTIVE = 'prod'
+                DB_URL = PROD_DB_URL
+            }
+            steps {
+                sh 'mvn deploy -DskipTests' 
+            }
+        }
+        stage('Build Docker Image') {
             steps {
                 script {
                     sh 'docker build -t app-container .'
                 }
             }
         }
-        stage('Run Docker image with docker compose') {
+        stage('Run Docker Image with Docker Compose') {
             steps {
                 script {
-                     sh 'docker-compose up --build -d'
+                    sh 'docker-compose up --build -d'
                 }
             }
         }
@@ -54,4 +137,3 @@ pipeline {
         }
     }
 }
-
