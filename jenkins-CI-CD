@@ -115,7 +115,7 @@ pipeline {
                 sh 'docker build -t app-container .'
                 
                 // Log in to the Docker registry
-                sh 'echo "mypassword" | docker login -u "admin" --password-stdin http://172.24.162.10:8081/repository/application-image'
+                sh 'echo "mypassword" | docker login -u "admin" --password-stdin 172.24.162.10:8081'
                 
                 // Tag the Docker image
                 sh 'docker tag app-container http://172.24.162.10:8081/repository/application-image/pipelineproject-app:1'
