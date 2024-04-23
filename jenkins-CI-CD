@@ -123,15 +123,18 @@ pipeline {
             }
         }
     }
-     post {
+    post {
         always {
             script {
                 // Set the system property
                 env.JAVA_OPTS = "-Dhudson.tasks.MailSender.SEND_TO_UNKNOWN_USERS=true"
                 
+                // Define valid recipients
+                def recipients = ['amani.bouhrira@espirt.tn', 'amani.bouhrira@esen.tn']
+                
                 // Send email using emailext plugin
                 emailext body: 'A Test EMail', 
-                         recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], 
+                         to: recipients.join(','),
                          subject: 'Test'
             }
         }
