@@ -125,7 +125,7 @@ pipeline {
     }
     post {
         always {
-            cleanWs()
+            // cleanWs()
             emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
  
         }
