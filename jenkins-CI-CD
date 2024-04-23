@@ -112,7 +112,7 @@ pipeline {
             steps {
                 script {
                     sh 'docker build -t app-container .'
-                    sh 'docker login http://172.24.162.10:8081/repository/application-image'
+                     sh 'docker login -u "admin" -p "mypassword http://172.24.162.10:8081/repository/application-image'
                     sh 'docker tag pipelineproject-app http://172.24.162.10:8081/repository/application-image/pipelineproject-app:1'
                     sh 'docker push http://172.24.162.10:8081/repository/application-image/pipelineproject-app:1'
                 }
