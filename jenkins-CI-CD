@@ -108,16 +108,23 @@ pipeline {
                 sh 'mvn deploy -DskipTests' 
             }
         }
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    sh 'docker build -t app-container .'
-                    sh 'docker login -u "admin" -p "mypassword http://172.24.162.10:8081/repository/application-image'
-                    sh 'docker tag app-container http://172.24.162.10:8081/repository/application-image/app-containerp:1'
-                    sh 'docker push http://172.24.162.10:8081/repository/application-image/app-container:1'
-                }
+    stage('Build Docker Image') {
+        steps {
+            script {
+                // Build the Docker image
+                sh 'docker build -t app-container .'
+                
+                // Log in to the Docker registry
+                sh 'docker login -u admin -p mypassword http://172.24.162.10:8081/repository/application-image'
+                
+                // Tag the Docker image
+                sh 'docker tag app-container http://172.24.162.10:8081/repository/application-image/pipelineproject-app:1'
+                
+                // Push the Docker image to the registry
+                sh 'docker push http://172.24.162.10:8081/repository/application-image/pipelineproject-app:1'
             }
         }
+    }
         stage('Run Docker Image with Docker Compose') {
             steps {
                 script {
