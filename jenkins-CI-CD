@@ -84,22 +84,22 @@ pipeline {
                 sh 'mvn package -DskipTests'
             }
         }
-        stage('Deploy Artifact to Dev') {
-            environment {
-                SPRING_PROFILES_ACTIVE = 'dev'
-            }
-            steps {
-                sh 'mvn deploy -DskipTests' 
-            }
-        }
-        stage('Deploy Artifact to Test') {
-            environment {
-                SPRING_PROFILES_ACTIVE = 'test'
-            }
-            steps {
-                sh 'mvn deploy -DskipTests' 
-            }
-        }
+        // stage('Deploy Artifact to Dev') {
+        //     environment {
+        //         SPRING_PROFILES_ACTIVE = 'dev'
+        //     }
+        //     steps {
+        //         sh 'mvn deploy -DskipTests' 
+        //     }
+        // }
+        // stage('Deploy Artifact to Test') {
+        //     environment {
+        //         SPRING_PROFILES_ACTIVE = 'test'
+        //     }
+        //     steps {
+        //         sh 'mvn deploy -DskipTests' 
+        //     }
+        // }
         stage('Deploy Artifact to Prod') {
             environment {
                 SPRING_PROFILES_ACTIVE = 'prod'
@@ -121,7 +121,7 @@ pipeline {
                 sh 'docker tag app-container:latest localhost:8082/repository/application-image/app-container:latest'
                 
                 // Push the Docker image to the registry
-                sh 'docker push http://localhost:8082/repository/application-image/app-container-app:latest'
+                sh 'docker push localhost:8082/repository/application-image/app-container-app:latest'
             }
         }
     }
