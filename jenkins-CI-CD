@@ -143,7 +143,7 @@ pipeline {
                 
                 // Send email using emailext plugin
                 emailext body: 'A Test EMail', 
-                         to: recipients.join('amani.bouhrira@esen.tn'),
+                         to: 'amani.bouhrira@esen.tn',
                          subject: 'Test'
         }
     }
