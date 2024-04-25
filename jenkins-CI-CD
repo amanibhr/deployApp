@@ -132,18 +132,45 @@ pipeline {
                 }
             }
         }
+        
         stage('Send Email') {
             steps {
                 script {
-                    // Define valid recipients
+                    // Define SMTP server details
+                    def smtpServer = 'smtp.gmail.com'
+                    def smtpPort = 465
+                    def smtpUsername = 'amani.bouhrira@gmail.com'
+                    def smtpPassword = 'rqiz qbpd ydlj kxkc'
                     def recipients = ['amani.bouhrira@esen.tn']
                     
-                    // Send email using emailext plugin without specifying SMTP server settings
-                    emailext body: 'A Test EMail', 
-                             to: recipients.join(','),
-                             subject: 'Test'
+                    // Create a Mailer instance
+                    def mailer = new javax.mail.internet.MimeMessage(javax.mail.Session.getDefaultInstance(new java.util.Properties()))
+                    mailer.setFrom(new javax.mail.internet.InternetAddress(smtpUsername))
+                    recipients.each { recipient ->
+                        mailer.addRecipient(javax.mail.Message.RecipientType.TO, new javax.mail.internet.InternetAddress(recipient))
+                    }
+                    mailer.setSubject("Test SMTP Configuration")
+                    mailer.setText("This is a test email to verify SMTP configuration.")
+                    
+                    // Send email
+                    javax.mail.Transport.send(mailer)
+                    
+                    // Log success message
+                    println "Test email sent successfully to ${recipients}"
                 }
             }
+        
+            // steps {
+            //     script {
+            //         // Define valid recipients
+            //         def recipients = ['amani.bouhrira@esen.tn']
+                    
+            //         // Send email using emailext plugin without specifying SMTP server settings
+            //         emailext body: 'A Test EMail', 
+            //                  to: recipients.join(','),
+            //                  subject: 'Test'
+            //     }
+            // }
         }
     }
    
