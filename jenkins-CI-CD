@@ -115,13 +115,13 @@ pipeline {
                 sh 'docker build -t app-container .'
                 
                 // Log in to the Docker registry
-                sh 'echo "mypassword" | docker login -u "admin" --password-stdin http://172.24.162.10:8082'
+                sh 'docker login -u admin -p mypassword http://localhost:8082'
                 
                 // Tag the Docker image
-                sh 'docker tag app-container http://172.24.162.10:8082/repository/application-image/pipelineproject-app:1'
+                sh 'docker tag app-container http://localhost:8082/repository/application-image/pipelineproject-app:1'
                 
                 // Push the Docker image to the registry
-                sh 'docker push http://172.24.162.10:8082/repository/application-image/pipelineproject-app:1'
+                sh 'docker push http://localhost:8082/repository/application-image/pipelineproject-app:1'
             }
         }
     }
