@@ -121,7 +121,7 @@ pipeline {
                 sh 'docker tag app-container:latest localhost:8082/repository/application-image/app-container:latest'
                 
                 // Push the Docker image to the registry
-                sh 'docker push localhost:8082/repository/application-image/app-container-app:latest'
+                sh 'docker push localhost:8082/repository/application-image/app-container:latest'
             }
         }
     }
