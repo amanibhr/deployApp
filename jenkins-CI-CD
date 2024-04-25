@@ -118,7 +118,7 @@ pipeline {
                 sh 'docker login -u admin -p mypassword http://localhost:8082'
                 
                 // Tag the Docker image
-                sh 'docker tag pipelineproject:latest http://localhost:8082/repository/application-image/pipelineproject-app:latest'
+                sh 'docker tag pipelineproject:latest http://localhost:8082/repository/application-image/'
                 
                 // Push the Docker image to the registry
                 sh 'docker push http://localhost:8082/repository/application-image/pipelineproject-app:latest'
@@ -137,10 +137,10 @@ pipeline {
         always {
             script {
                 // Set the system property
-                // env.JAVA_OPTS = "-Dhudson.tasks.MailSender.SEND_TO_UNKNOWN_USERS=true"
+                env.JAVA_OPTS = "-Dhudson.tasks.MailSender.SEND_TO_UNKNOWN_USERS=true"
                 
                 // Define valid recipients
-                def recipients = ['amani.bouhrira@espirt.tn', 'amani.bouhrira@esen.tn']
+                def recipients = ['amani.bouhrira@esen.tn']
                 
                 // Send email using emailext plugin
                 emailext body: 'A Test EMail', 
