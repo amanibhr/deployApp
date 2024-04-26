@@ -133,31 +133,19 @@ pipeline {
             }
         }
         
-        stage('Send Email') {
-            steps {
-                script {
-                    // Define valid recipients
-                    def recipients = ['amani.bouhrira@esen.tn']
-                    
-                    // Send email using emailext plugin without specifying SMTP server settings
-                    emailext body: 'A Test EMail', 
-                             to: recipients.join(','),
-                             subject: 'Test'
-                }
-            }
-        }
+       
     }
     post {
-        failure {
-            emailext attachmentsPattern: 'test.zip', body: '''${SCRIPT, template="groovy-html.template"}''', 
-                    subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Failed", 
-                    mimeType: 'text/html',to: "email id"
-            }
-         success {
-               emailext attachmentsPattern: 'test.zip', body: '''${SCRIPT, template="groovy-html.template"}''', 
-                    subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Successful", 
-                    mimeType: 'text/html',to: "email id"
-          }      
+        always {
+            emailext (
+                subject: "Résultat du Pipeline: ${currentBuild.fullDisplayName}",
+                body: """<p>Le pipeline '${env.JOB_NAME}' a été exécuté.</p>
+<p>Status: ${currentBuild.currentResult}</p>
+<p>Voir les détails ici: ${env.BUILD_URL}</p>""",
+                recipientProviders: [[$class: 'DevelopersRecipientProvider']],
+                to: 'eyatr90@gmail.com'
+            )
+        }
     }
     
 }
