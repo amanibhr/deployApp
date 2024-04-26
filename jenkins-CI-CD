@@ -143,7 +143,7 @@ pipeline {
 <p>Status: ${currentBuild.currentResult}</p>
 <p>Voir les détails ici: ${env.BUILD_URL}</p>""",
                 recipientProviders: [[$class: 'DevelopersRecipientProvider']],
-                to: 'eyatr90@gmail.com'
+                to: 'amani.bouhrira@esen.tn'
             )
         }
     }
